@@ -1,0 +1,451 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AI Code Generator</title>
+        <!-- Include CSS files -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
+            integrity="sha256-zzHVEO0xOoVm0I6bT9v5SgpRs1cYNyvEvHXW/1yCgqU="  
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!-- Custom styles -->
+        <style>
+            body {
+                background-color: #2e2e2e; /* Dark grey background */
+                color: #ffffff; /* White text for better contrast */
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                display: flex; /* Use flexbox for layout */
+            }
+            /* .container {
+                max-width: 800px;
+                margin-left: 20px; /* Space for sidebar */
+                /* flex-grow: 1; Allow the container to grow */
+            /* }  */
+            .sidebar {
+                width: 200px; /* Fixed width for sidebar */
+                background-color: #1e1e1e; /* Sidebar background color */
+                padding: 15px;
+                border-radius: 5px;
+                margin-right: 20px; /* Space between sidebar and main content */
+            }
+            h1, h2, label {
+                color: #ffffff;
+            }
+            form {
+                background-color: #1e1e1e; /* Black form background */
+                padding: 20px;
+                border-radius: 5px;
+                display: flex;
+                flex-direction: column; /* Change to column layout */
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            .form-group label {
+                display: block; /* Label block display */
+                margin-bottom: 5px; /* Space below label */
+            }
+            input, select, textarea {
+                width: calc(100% - 20px);
+                padding: 10px;
+                background-color: #ffffff; /* White background for inputs */
+                color: #000000; /* Black text for inputs */
+                border: 1px solid #555;
+                border-radius: 4px;
+            }
+            .submit-btn {
+                background-color: #5e5e5e;
+                cursor: pointer;
+                border: none;
+                padding: 10px;
+                font-weight: bolder;
+                border-radius: 4px;
+                color: #ffffff;
+                transition: background-color 0.3s ease;
+                display: block;
+                margin: 0 auto;
+                margin-top: 20px;
+                width: 200px;
+                font-size: 18px;
+                text-align: center;
+            }
+
+            /* Make "I want" and "Tone" inputs appear in one line */
+            .inline-fields {
+                display: flex;
+                justify-content: space-between;
+                gap: 20px; /* Space between the form fields */
+            }
+
+            .inline-fields .form-group {
+                flex: 1; /* Make each form-group take up equal space */
+                min-width: 48%; /* Ensure each field has minimum width */
+            }
+
+            /* Ensure proper spacing between input fields */
+            .form-group {
+                margin-bottom: 15px;
+            }
+            button:hover {
+                background-color: #4e4e4e;
+            }
+            /* Styles for code blocks and copy button */
+            pre,
+            pre[class*="language-"] {
+                background-color: #000000 !important; /* Ensure the background stays black */
+                padding: 15px;
+                border-radius: 5px;
+                position: relative;
+                overflow: auto;
+            }
+            pre code,
+            pre[class*="language-"] code {
+                background-color: transparent !important;
+                padding: 0;
+            }
+            .copy-button {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                background: #9E9E9E; /* Stylish copy button */
+                color: #ffffff;
+                border: none;
+                padding: 8px 12px;
+                cursor: pointer;
+                border-radius: 4px;
+                transition: background-color 0.3s ease;
+            }
+            .copy-button:hover {
+                background: #8E8E8E;
+            }
+            /* Scrollbar styling for code blocks */
+            pre::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+            }
+            pre::-webkit-scrollbar-thumb {
+                background: #555;
+                border-radius: 4px;
+            }
+            pre::-webkit-scrollbar-thumb:hover {
+                background: #777;
+            }
+            /* Style links in the output */
+            a {
+                color: #66ccff;
+            }
+            /* Style lists and other elements in the output */
+            #output p, #output li {
+                color: #ffffff;
+            }
+            /* Loading animation for "Generating..." */
+            #loading {
+                font-size: 16px;
+                color: #ffffff;
+                display: inline-block;
+                animation: blink 1.2s infinite;
+            }
+            @keyframes blink {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.5; }
+            }
+            /* Copied notification */
+            .copied-notification {
+                position: absolute;
+                top: 57px;;
+                right: 15px;
+                background-color: #4CAF50;
+                color: white;
+                padding: 5px 10px;
+                border-radius: 5px;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            .show {
+                opacity: 1;
+            }
+            /* Upvote button styles */
+            .container {
+                flex: 3;
+                padding: 20px;
+                overflow-y: auto; /* Allows scrolling if content overflows */
+            }
+
+            .sidebar {
+                background-color: #1e1e1e;
+                padding: 20px;
+                width: 25%;
+                margin-right: 20px;
+                border-radius: 5px;
+                height: 100vh; /* Makes the sidebar full height */
+                box-sizing: border-box; /* Ensures padding is included in width and height calculations */
+                overflow-y: auto; /* Allows the sidebar to scroll if content overflows */
+            }
+
+            h1, h2, label {
+                color: #ffffff;
+            }
+
+            .model-list {
+                list-style: none;
+                padding: 0;
+            }
+
+            .model-list li {
+                padding: 14px;
+                border-bottom: 1px solid #444;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .upvote-btn {
+                background: #1e1e1e;
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-size: 20px;
+                display: flex; /* Center the icon */
+                align-items: center; /* Center the icon vertically */
+            }
+
+            .upvote-btn:hover {
+                color: white;
+                background: #1e1e1e; /* Highlight color on hover */
+            }
+
+            .upvotes {
+                margin-left: 8px; /* Space between icon and count */
+                font-size: 20px;
+                color: white; /* Ensure the upvote count is visible */
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <h2 align="center">Models</h2>
+            <ul class="model-list" id="model-list">
+                {% for model in models %}
+                <li>
+                    <span>{{ model.model_name }}</span>
+                    <span style="display: flex; align-items: center;"> <!-- Flex container for alignment -->
+                        <button class="upvote-btn" data-model="{{ model.model_name }}">
+                            <i class='fa fa-sort-asc'></i>
+                        </button>
+                        <span class="upvotes">{{ model.upvotes }}</span>
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="container">
+            <h1>AI Code Generator</h1>
+            <form id="generate-form">
+                <div class="form-group">
+                    <label for="model">Select Model:</label>
+                    <select id="model-select" name="model" required>
+                        <option value="openai/gpt-3.5-turbo">GPT 3.5 Turbo</option>
+                        <option value="openai/gpt-4">GPT 4</option>
+                        <option value="openai/gpt-4-32k">GPT 4 Turbo</option>
+                        <option value="openai/chatgpt-4o-latest">GPT 4o</option>
+                        <option value="google/gemini-flash-1.5-8b">Gemini 1.5 Flask-8B</option>
+                        <option value="meta-llama/llama-3.2-3b-instruct:free">Llama 3.2 3B Instruct</option>
+                        <option value="mistralai/mixtral-8x7b-instruct">Mixtral 8x7B Instruct</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="user_input">Describe your task:</label>
+                    <textarea id="user_input" name="user_input" placeholder="Describe the code or task you need..." required></textarea>
+                </div>
+                <div class="inline-fields">
+                    <div class="form-group">
+                        <label for="option">I want:</label>
+                        <select id="option" name="option">
+                            <option value="Generate code">Generate code</option>
+                            <option value="Generate code with error handling">Generate code with error handling</option>
+                            <option value="Generate code with explanation">Generate code with explanation</option>
+                            <option value="Generate 3 codes">Generate 3 codes</option>
+                            <option value="Generate code (as short as possible)">Generate code (as short as possible)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tone">Tone:</label>
+                        <select id="tone" name="tone">
+                            <option value="Professional">Professional</option>
+                            <option value="Academic">Academic</option>
+                            <option value="Direct">Direct</option>
+                            <option value="Helpful">Helpful</option>
+                            <option value="Friendly">Friendly</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="language">Output Language:</label>
+                    <input type="text" id="language" name="language" placeholder="e.g., Python, JavaScript">
+                </div>
+                <button type="submit" class="submit-btn">Generate</button>
+            </form>
+            <div id="output"></div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+        integrity="sha256-57iL3cbHV7L8jLET4kaYAasUp47BqPraTWOR41c/X58="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- Include Marked.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"
+            integrity="sha256-xoB1Zy2Xbkd3OQVguqESGUhVvUQEsTZH2khVquH5Ngw="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- Include Prism.js Autoloader -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"
+            integrity="sha256-AjM0J5XIbiB590BrznLEgZGLnOQWrt62s3BEq65Q/I0="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script>
+                document.getElementById('generate-form').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                
+                    const outputElement = document.getElementById('output');
+                    outputElement.innerHTML = '<p id="loading">Generating...</p>';
+                
+                    const generateButton = this.querySelector('button[type="submit"]');
+                    generateButton.disabled = true;
+                
+                    fetch('/generate', {
+                        method: 'POST',
+                        body: new FormData(this)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        generateButton.disabled = false;
+                        outputElement.innerHTML = ''; // Clear the loading text
+                
+                        if (data.output) {
+                            // Call streamOutput to process the data and display it in the output section
+                            streamOutput(data.output, outputElement);
+                        } else {
+                            outputElement.innerHTML = '<p>Error: ' + data.error + '</p>';
+                        }
+                    })
+                    .catch(error => {
+                        generateButton.disabled = false;
+                        outputElement.innerHTML = '<p>An error occurred: ' + error.message + '</p>';
+                    });
+                });
+                
+                function streamOutput(text, outputElement) {
+                    const lines = text.split('\n');
+                    let index = 0;
+                    let isInCodeBlock = false;
+                    let currentElement = document.createElement('p');
+                
+                    function processNextLine() {
+                        if (index >= lines.length) {
+                            return;
+                        }
+                
+                        let line = lines[index];
+                        index++;
+                
+                        if (line.startsWith('```')) {
+                            isInCodeBlock = !isInCodeBlock;
+                
+                            if (isInCodeBlock) {
+                                // Start of code block
+                                const codeBlock = document.createElement('pre');
+                                const codeElement = document.createElement('code');
+                                // Get the language if specified (e.g., ```python)
+                                const lang = line.replace('```', '').trim();
+                                if (lang) {
+                                    codeElement.className = 'language-' + lang;
+                                }
+                                codeBlock.appendChild(codeElement);
+                                outputElement.appendChild(codeBlock);
+                                currentElement = codeElement;
+                            } else {
+                                // End of code block
+                                // Highlight the code block
+                                Prism.highlightElement(currentElement);
+                
+                                // Capture the code element
+                                const codeElement = currentElement;
+                
+                                // Add copy button
+                                const copyButton = document.createElement('button');
+                                copyButton.textContent = 'Copy';
+                                copyButton.className = 'copy-button';
+                                const copiedNotification = document.createElement('span');
+                                copiedNotification.className = 'copied-notification';
+                                copiedNotification.textContent = 'Copied!';
+                                // codeBlock.appendChild(copiedNotification);
+                                copyButton.addEventListener('click', () => {
+                                    navigator.clipboard.writeText(codeElement.textContent).then(() => {
+                                        copiedNotification.classList.add('show');
+                                        setTimeout(() => {
+                                            copiedNotification.classList.remove('show');
+                                        }, 1500); // Hide notification after 1.5 seconds
+                                    });
+                                });
+                                codeElement.parentElement.style.position = 'relative';
+                                codeElement.parentElement.insertBefore(copyButton, codeElement.parentElement.firstChild);
+                                codeElement.parentElement.insertBefore(copiedNotification, codeElement.parentElement.firstChild);
+                
+                                currentElement = document.createElement('p');
+                            }
+                
+                            // Process the next line after a short delay
+                            setTimeout(processNextLine, 50);
+                        } else {
+                            if (isInCodeBlock) {
+                                // Append line to code block
+                                currentElement.textContent += line + '\n';
+                            } else {
+                                // Replace **text** with <strong>text</strong> for bold formatting
+                                line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                
+                                // Append line to paragraph
+                                if (!currentElement.parentElement) {
+                                    currentElement = document.createElement('p');
+                                    outputElement.appendChild(currentElement);
+                                }
+                                currentElement.innerHTML += line + '<br>';
+                            }
+                
+                            // Process the next line after a short delay
+                            setTimeout(processNextLine, 50);
+                        }
+                    }
+                
+                    processNextLine();
+                }
+                
+                // Upvote functionality for models
+                document.querySelectorAll('.upvote-btn').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const modelName = this.getAttribute('data-model'); // Get model name from data-model attribute
+                        const upvoteElement = this.nextElementSibling; // Target the next element which is upvote count
+                
+                        // Send the POST request to your Flask backend
+                        fetch('/upvote', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: new URLSearchParams({ model_name: modelName })
+                        })
+                        .then(response => response.json()) // Convert the response to JSON
+                        .then(data => {
+                            // Find the updated model data by matching the model name
+                            const updatedModel = data.find(model => model.model_name === modelName);
+                            if (updatedModel) {
+                                // Update the upvote count in the DOM
+                                upvoteElement.textContent = updatedModel.upvotes;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error upvoting model:', error);
+                        });
+                    });
+                });
+                </script>
+    </body>
+    </html>
