@@ -93,14 +93,26 @@ The descriptive analysis provides insights into practitioners' experiences with 
 
 The open coding results offer qualitative insights into user challenges and recommendations.
 
+📜 Citation
+
 📌 For citation and reuse: Please refer to our study when using this dataset.
 
+To cite Large Language Models for Code Generation: The Practitioners’ Perspective, use the following BibTeX entry:
+
+bibtex
+Copy
+Edit
 @article{rasheed2025large,
-  title={Large Language Models for Code Generation: The Practitioners Perspective},
-  author={Rasheed, Zeeshan and Waseem, Muhammad and Kemell, Kai Kristian and Ahmad, Aakash and Sami, Malik Abdul and Rasku, Jussi and Syst{\"a}, Kari and Abrahamsson, Pekka},
-  journal={arXiv preprint arXiv:2501.16998},
-  year={2025}
+  title={Large Language Models for Code Generation: The Practitioners' Perspective},
+  author={Rasheed, Zeeshan and Waseem, Muhammad and Kemell, Kai Kristian and Ahmad, Aakash and Sami, Malik Abdul and Rasku, Jussi and Systä, Kari and Abrahamsson, Pekka},
+  journal={arXiv preprint},
+  eprint={2501.16998},
+  archivePrefix={arXiv},
+  primaryClass={cs.SE},
+  year={2025},
+  url={https://arxiv.org/abs/2501.16998}
 }
+
 
 📩 Contact & Contributions
 
