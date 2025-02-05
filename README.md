@@ -36,6 +36,23 @@ Libraries listed in requirements.txt
 
 **Replication Package**
 
+## 📜 Citation
+
+Below you cna find the repliation package dataset on Zenoda.
+
+```bibtex
+@dataset{rasheed_2025_14810003,
+  author       = {Rasheed, Zeeshan},
+  title        = {Large Language Models for Code Generation: The
+                   Practitioners' Perspective},
+  month        = feb,
+  year         = 2025,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.14810003},
+  url          = {https://doi.org/10.5281/zenodo.14810003}
+}
+
+
 **Objective**
 
 This repository provides the _replication package.xlsx_ for the study "**Large Language Models for Code Generation: The Practitioners’ Perspective.**" The study aims to explore how practitioners perceive and use large language models for code generation.  We collected survey data and performed:
@@ -98,7 +115,7 @@ The open coding results offer qualitative insights into user challenges and reco
 For questions or contributions, feel free to open an issue or submit a pull request. This dataset and analysis are shared for academic and research purposes. You can also contact on this email: zeeshan.rasheed@tuni.fi
 
 
-## 📜 Citation
+## 📜 You can find full paper for _citation_ below:
 
 To cite our work **Large Language Models for Code Generation: The Practitioners’ Perspective**, please use the following BibTeX entry:
 
