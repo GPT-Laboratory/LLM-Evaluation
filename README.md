@@ -33,8 +33,8 @@ Ensure you have the following installed:
 Python 3.8 or higher
 Libraries listed in requirements.txt
 
-**Replication Package**
 
+**Replication Package**
 
 **Objective**
 
@@ -58,7 +58,7 @@ Open-ended questions (Q14-Q15): Participants' insights on challenges and suggest
 Survey_Data - Contains the raw survey responses.
 
 
-2️⃣ Descriptive Analysis
+2️⃣ **Descriptive Analysis**
 
 We performed descriptive statistical analysis on the closed-ended questions (Q1 to Q13) to extract insights such as:
 
@@ -68,12 +68,12 @@ Preferences for programming languages used in testing and development.
 
 Feedback on tool usability and performance of different models.
 
-📂 Files:
+📂 **Files:**
 
 _Descriptive_Analysis_ - Contains summary statistics and key insights from Q1 to Q13.
 
 
-3️⃣ Open Coding
+3️⃣ **Open Coding**
 
 For open-ended survey questions (Q14 and Q15), we applied thematic analysis and open coding to categorize qualitative responses into meaningful themes. This helped in identifying:
 
@@ -81,7 +81,7 @@ Common challenges faced by practitioners while using LLMs for code generation.
 
 Suggestions for improving these models.
 
-📂 Files:
+📂 **Files:**
 
 _OpenCoding_ - Contains coded responses and thematic analysis. A document explaining the coding process and framework used.
 
@@ -93,12 +93,16 @@ The descriptive analysis provides insights into practitioners' experiences with 
 
 The open coding results offer qualitative insights into user challenges and recommendations.
 
-📜 Citation
+📩 **Contact & Contributions**
 
-📌 For citation and reuse: Please refer to our study when using this dataset.
+For questions or contributions, feel free to open an issue or submit a pull request. This dataset and analysis are shared for academic and research purposes. You can also contact on this email: zeeshan.rasheed@tuni.fi
 
-To cite Large Language Models for Code Generation: The Practitioners’ Perspective, use the following BibTeX entry:
 
+## 📜 Citation
+
+To cite our work **Large Language Models for Code Generation: The Practitioners’ Perspective**, please use the following BibTeX entry:
+
+```bibtex
 @article{rasheed2025large,
   title={Large Language Models for Code Generation: The Practitioners' Perspective},
   author={Rasheed, Zeeshan and Waseem, Muhammad and Kemell, Kai Kristian and Ahmad, Aakash and Sami, Malik Abdul and Rasku, Jussi and Systä, Kari and Abrahamsson, Pekka},
@@ -111,8 +115,4 @@ To cite Large Language Models for Code Generation: The Practitioners’ Perspect
 }
 
 
-
-📩 Contact & Contributions
-
-For questions or contributions, feel free to open an issue or submit a pull request. This dataset and analysis are shared for academic and research purposes. You can also contact on this email: zeeshan.rasheed@tuni.fi
 
